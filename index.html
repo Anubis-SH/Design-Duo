@@ -19,7 +19,7 @@
     body {
       margin: 0;
       font-family: 'Cairo', sans-serif;
-      background: url('apple.jpg') no-repeat center center fixed;
+      background: url('apple.png') no-repeat center center fixed;
       background-size: cover;
       color: #fff;
       position: relative;
@@ -34,7 +34,7 @@
       background: rgba(0, 0, 0, 0.7);
       z-index: 0;
       pointer-events: none;
-      transition: background 0.3s ease;
+      transition: background 0.5s ease;
     }
     /* المحتوى فوق التراكب */
     .hero-content, .section {
@@ -67,6 +67,13 @@
       max-width: 1200px;
       border-radius: 10px;
     }
+    .about-section.bg-dark,
+    .contact-section.bg-dark {
+      background: rgba(0, 0, 0, 0.7);
+    }
+    .services-section.bg-light {
+      background: rgba(255, 255, 255, 0.8);
+    }
     /* تأثير التفاعل عند التحويم */
     .interactive {
       transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
@@ -75,10 +82,16 @@
       transform: translateY(-10px);
       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
     }
-    /* شريط التنقل بلون رمادي ثابت */
+    /* شريط التنقل مع خلفية شفافة */
     #navbar {
       z-index: 2;
-      background: rgb(33, 37, 41);
+      background: rgba(33, 37, 41, 0.8);
+      transition: background 0.3s ease;
+    }
+    /* إزالة الإطار عند الضغط على زر القائمة */
+    .navbar-toggler:focus {
+      outline: none;
+      box-shadow: none;
     }
     /* تخصيص ألوان روابط شريط التنقل */
     .navbar-dark .navbar-nav .nav-link {
@@ -89,15 +102,14 @@
       color: #007bff;
     }
     .logo {
-  max-width: 200px; /* يمكنك تغيير القيمة حسب الحجم المناسب */
-  height: auto;
-}
-
-    /* أنماط البطاقات */
+      max-width: 200px;
+      height: auto;
+    }
+    /* أنماط البطاقات - تم جعل الخلفية شفافة */
     .card {
       border: none;
       border-radius: 15px;
-      background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+      background: rgba(255, 255, 255, 0.7)!important;
       color: #333;
     }
     .card-title {
@@ -114,9 +126,9 @@
     }
     /* تحسين زر عرض المزيد في المعرض */
     .btn-outline-primary.view-more {
-      border: 1px solid #007bff; /* تقليل سماكة الحدود إلى 1px */
+      border: 1px solid #007bff;
       color: #007bff;
-      background-color: rgba(0, 0, 0, 0.7); /* خلفية شفافة بنسبة 70% */
+      background-color: rgba(0, 0, 0, 0.5); /* خلفية شفافة أكثر */
     }
     .btn-outline-primary.view-more:hover {
       background: #007bff;
@@ -195,7 +207,7 @@
   <!-- القسم الرئيسي / الصفحة الرئيسية -->
   <header id="home" class="hero-section">
     <div class="hero-content container text-center">
-          <img src="logo.png" alt="Logo" class="logo mb-3">
+      <img src="logo.png" alt="Logo" class="logo mb-3">
       <h1 class="display-4">مرحبًا بكم في Design Duo</h1>
       <p class="lead">الإبداع والاحترافية في التصميم وتطوير الهوية</p>
       <div class="hero-buttons mt-4">
@@ -369,22 +381,21 @@
 
   <!-- زر العودة للأعلى -->
   <script>
-    // إنشاء زر العودة للأعلى وتعيين خصائصه
     const backToTopButton = document.createElement("button");
     backToTopButton.innerText = "↑";
     backToTopButton.style.position = "fixed";
     backToTopButton.style.bottom = "20px";
     backToTopButton.style.left = "20px";
     backToTopButton.style.padding = "10px";
-    backToTopButton.style.backgroundColor = "#007bff"; // خلفية زرقاء صريحة
+    backToTopButton.style.backgroundColor = "#007bff";
     backToTopButton.style.color = "#fff";
     backToTopButton.style.border = "none";
     backToTopButton.style.borderRadius = "5px";
     backToTopButton.style.cursor = "pointer";
-    backToTopButton.style.zIndex = "9999"; // وضع الزر فوق كل العناصر
-    backToTopButton.style.display = "none"; // مخفي مبدئيًا
+    backToTopButton.style.zIndex = "9999";
+    backToTopButton.style.display = "none";
     document.body.appendChild(backToTopButton);
-
+    
     window.addEventListener("scroll", () => {
       if (window.scrollY > 200) {
         backToTopButton.style.display = "block";
@@ -392,7 +403,7 @@
         backToTopButton.style.display = "none";
       }
     });
-
+    
     backToTopButton.addEventListener("click", () => {
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
@@ -409,13 +420,24 @@
         document.body.classList.add("loaded");
       }, 100);
     });
-
+    
     // تطبيق تأثير ScrollReveal على الأقسام
     ScrollReveal().reveal('.section', { delay: 200, distance: '50px', origin: 'bottom' });
-
-    // تم إزالة كود التمرير التلقائي عند الضغط على الصور لتجنب مشكلة الانتقال غير المرغوب فيه في الموبايل
-
-    // تهيئة EmailJS - استبدل YOUR_USER_ID بمعرف المستخدم الخاص بك
+    
+    // إزالة أي تمرير تلقائي عند الضغط على الصور (لتفادي مشكلة الموبايل)
+    
+    // إزالة الظل (overlay) من الصفحة الرئيسية بعد التمرير خارجها
+    window.addEventListener("scroll", () => {
+      const overlay = document.querySelector(".hero-overlay");
+      const heroHeight = document.getElementById("home").offsetHeight;
+      if (window.scrollY > heroHeight - 50) {
+        overlay.style.background = "rgba(0, 0, 0, 0)";
+      } else {
+        overlay.style.background = "rgba(0, 0, 0, 0.7)";
+      }
+    });
+    
+    // تهيئة EmailJS - استبدل YOUR_USER_ID بالقيمة المناسبة
     emailjs.init('YOUR_USER_ID');
     document.getElementById('contact-form').addEventListener('submit', function(event) {
       event.preventDefault();
